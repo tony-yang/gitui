@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  gitui:
+    build:
+      context: .
+    networks:
+      - gitui
+    volumes:
+      - ~/db/gitui:/db/gitui
+      - ./:/root/gitui
+    ports:
+      - "11111:11111"
+
+networks:
+  gitui:
