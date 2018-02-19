@@ -1,10 +1,12 @@
 FROM ubuntu
 RUN apt-get update && apt-get install -y \
     build-essential \
+    cmake \
     git \
     libffi-dev \
     libsqlite3-dev \
     nodejs \
+    pkg-config \
     sqlite3 \
     ruby \
     ruby-dev \
