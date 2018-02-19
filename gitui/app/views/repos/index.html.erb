@@ -1,1 +1,14 @@
-<h2>Repos</h2>
+<h2>Repositories</h2>
+
+<div id='repositories'>
+  <ul>
+<% @repos.each do |repo| %>
+    <li class='repository-item'>
+      <h3><%= repo[:name] %></h3>
+      <div><%= repo[:url] %></div>
+      <div><%= repo[:last_commit_message] %></div>
+      <div><%= repo[:last_commit_time] %></div>
+    </li>
+<% end %>
+  </ul>
+</div>
