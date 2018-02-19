@@ -1,5 +1,9 @@
 <h2>Create a new repository</h2>
 
+<% if flash[:error] %>
+  <div class='error'><%= flash[:error] %></div>
+<% end %>
+
 <%= form_with scope: :repo, url: repos_path, local: true do |form| %>
   <div class='form-group'>
     <%= form.label :name, 'Repository Name' %>

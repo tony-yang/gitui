@@ -25,8 +25,11 @@ class ReposController < ApplicationController
         commit_and_push_first_readme(repo_url_inside_container, @repo['url'], @repo['owner'])
       end
       @repo.save
+      redirect_to @repo
+    else
+      flash.now[:error] = 'The repository name already exists!'
+      render 'new'
     end
-    redirect_to @repo
   end
 
   private
