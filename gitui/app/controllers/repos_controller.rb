@@ -9,8 +9,7 @@ class ReposController < ApplicationController
         repo.attributes.each {|k, v| current_repo[k.to_sym] = v}
         repo_data = Rugged::Repository.new(repo_url_inside_container)
         unless repo_data.head_unborn?
-          last_ref = repo_data.head
-          last_commit_sha = last_ref.target_id
+          last_commit_sha = repo_data.head.target_id
           last_commit = repo_data.lookup(last_commit_sha)
           current_repo[:last_commit_time] = last_commit.time
           current_repo[:last_commit_message] = last_commit.message
@@ -22,6 +21,23 @@ class ReposController < ApplicationController
 
   def show
     @repo = Repo.find_by(name: params[:name])
+    @metadata = {}
+    repo_url_inside_container = repo_url_in_container_mapping(@repo[:name])
+    if Dir.exists? repo_url_inside_container
+        repo_data = Rugged::Repository.new(repo_url_inside_container)
+        unless repo_data.head_unborn?
+          last_commit_sha = repo_data.head.target_id
+          last_commit = repo_data.lookup(last_commit_sha)
+
+          walker = Rugged::Walker.new(repo_data)
+          walker.push(last_commit_sha)
+          @metadata[:number_of_commits] = walker.count
+          walker.reset
+
+          local_branches = repo_data.branches.each_name(:local).sort
+          @metadata[:local_branches] = local_branches
+        end
+    end
   end
 
   def new

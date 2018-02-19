@@ -1,2 +1,22 @@
-<h2>Individual Repo</h2>
-<%= @repo.name %>
+<h2><%= @repo.name %></h2>
+<div class='repo'>
+  <div id='repo-metadata'>
+    <div class='git-url'><%= @repo.url %></div>
+    <div class='dropdown show git-branch'>
+      <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink'>Branch: <%= @metadata[:local_branches][0] %></a>
+      <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
+        <% @metadata[:local_branches].each do |branch| %>
+          <a class='dropdown-item' href='#'><%= branch %></a>
+        <% end %>
+      </div>
+    </div>
+
+    <div class='git-branch-commit-count'><%= pluralize(@metadata[:number_of_commits], 'commit') %></div>
+  </div>
+  <div id='repo-content'>
+    Files
+  </div>
+  <div id='repo-document'>
+    README.md
+  </div>
+</div>

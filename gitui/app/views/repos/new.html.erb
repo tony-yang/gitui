@@ -10,7 +10,7 @@
     <%= form.text_field :name, class: 'form-control' %>
   </div>
   <div class='form-check'>
-    <%= form.check_box :readme, class: 'form-check-input' %>
+    <%= form.check_box :readme, class: 'form-check-input', checked: true %>
     <%= form.label :readme, 'Initialize this repository with a README', class: 'form-check-label' %>
   </div>
   <%= form.submit class: 'btn btn-primary' %>

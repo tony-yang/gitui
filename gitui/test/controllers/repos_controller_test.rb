@@ -25,7 +25,7 @@ class ReposControllerTest < ActionDispatch::IntegrationTest
       }}
     end
     assert(Dir.exist?(@repo_inside_container_url), 'Failed to create a new repo')
-    assert_redirected_to repo_path((@new_repo_name))
+    assert_redirected_to repo_path(@new_repo_name)
   end
 
   test 'should not create a new repo when creating a new repo with duplicated repo name' do
