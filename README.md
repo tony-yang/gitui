@@ -1,5 +1,5 @@
 # GitUI
-I want to setup a personal Git server with a web GUI similar to the github.com. Since GitHub is proprietary I looked into GitLab. However, the system requirement of GitLab CE is relatively high for my personal need. It recommended 4GB of RAM and at least a 2 core CPU. I didn't want to assign that much resource for such a simple system so I decided to do an experiment. This project will build a personal GitHub-like system with minimum functionality and system resource requirement that only meet my need.
+I want to setup a personal Git server with a web GUI similar to the github.com to view files and diffs. Since GitHub is proprietary I looked into GitLab. However, the system requirement of GitLab CE is relatively high for my personal needs. It recommended 4GB of RAM and at least a 2-core CPU. I didn't want to assign that much resource for such a simple need so I decided to do an experiment. This project will build a personal GitHub-like system with minimum functionality and system resource requirement that only meets my need.
 
 ## User Guide
 
@@ -11,7 +11,7 @@ git clone git@github.com:tony-yang/gitui.git
 cd gitui
 make start
 docker-compose exec gitui bash
-cd gitui
+cd ~/gitui/gitui
 bundle install
 rails test
 rails server -p 11111 -b 0.0.0.0
