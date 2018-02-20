@@ -22,6 +22,8 @@ class ReposController < ApplicationController
   def show
     @repo = Repo.find_by(name: params[:name])
     @metadata = {}
+    @readme = nil
+
     repo_url_inside_container = repo_url_in_container_mapping(@repo[:name])
     if Dir.exists? repo_url_inside_container
         repo_data = Rugged::Repository.new(repo_url_inside_container)
@@ -29,6 +31,7 @@ class ReposController < ApplicationController
           last_commit_sha = repo_data.head.target_id
           last_commit = repo_data.lookup(last_commit_sha)
 
+          # The repo metadata section
           walker = Rugged::Walker.new(repo_data)
           walker.push(last_commit_sha)
           @metadata[:number_of_commits] = walker.count
@@ -36,6 +39,63 @@ class ReposController < ApplicationController
 
           local_branches = repo_data.branches.each_name(:local).sort
           @metadata[:local_branches] = local_branches
+
+          # The repo-content section
+          @tree = repo_data.lookup(last_commit.tree.oid)
+          @tree.each_blob do |file|
+            if file[:name] == 'README.md'
+              @readme = file
+              break
+            end
+          end
+
+          # The repo readme section
+          readme_blob = repo_data.lookup(@readme[:oid])
+          # ActionViewer simple_format only converts \n\n to <p>
+          # Single \n converts to <br> which is considered bad semantic
+          @readme_content = readme_blob.content.gsub(/\n/, "\n\n")
+        end
+    end
+  end
+
+  def show_content
+    @repo = Repo.find_by(name: params[:name])
+    tree_path = params[:tree].split('/')
+    current_tree_oid = nil
+    current_tree_type = nil
+    @metadata = {}
+    @blob_content = nil
+    @current_tree = nil
+
+    repo_url_inside_container = repo_url_in_container_mapping(@repo[:name])
+    if Dir.exists? repo_url_inside_container
+        repo_data = Rugged::Repository.new(repo_url_inside_container)
+        unless repo_data.head_unborn?
+          last_commit_sha = repo_data.head.target_id
+          last_commit = repo_data.lookup(last_commit_sha)
+
+          local_branches = repo_data.branches.each_name(:local).sort
+          @metadata[:local_branches] = local_branches
+
+          # The repo-content section
+          tree = repo_data.lookup(last_commit.tree.oid)
+          tree_path.each do |current_tree_name|
+            tree.each do |item|
+              if item[:name] == current_tree_name
+                current_tree_oid = item[:oid]
+                current_tree_type = item[:type]
+                break
+              end
+            end
+            tree = repo_data.lookup(current_tree_oid) unless current_tree_oid.nil?
+          end
+
+          if current_tree_type == :blob
+            blob = repo_data.lookup(current_tree_oid)
+            @blob_content = blob.content.gsub(/\n/, "\n\n")
+          elsif current_tree_type == :tree
+            @current_tree = repo_data.lookup(current_tree_oid)
+          end
         end
     end
   end

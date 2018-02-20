@@ -1,7 +1,6 @@
 <h2><%= @repo.name %></h2>
 <div class='repo'>
   <div id='repo-metadata'>
-    <div class='git-url'><%= @repo.url %></div>
     <div class='dropdown show git-branch'>
       <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink'>Branch: <%= @metadata[:local_branches][0] %></a>
       <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
@@ -10,31 +9,26 @@
         <% end %>
       </div>
     </div>
-
-    <div class='git-branch-commit-count'><%= pluralize(@metadata[:number_of_commits], 'commit') %></div>
   </div>
   <div id='repo-content'>
+    <% if @blob_content.nil? and not @current_tree.nil? %>
     <ul>
-      <% @tree.each_tree do |dir| %>
-      <a href='<%= repo_path(@repo[:name]) %>/master/<%= dir[:name] %>'><li class='directory'>
+      <% @current_tree.each_tree do |dir| %>
+      <a href='<%= request.env['PATH_INFO'] %>/<%= dir[:name] %>'><li class='directory'>
         <span class='symbol'>+</span>
         <span class='name'><%= dir[:name] %></span>
       </li></a>
       <% end %>
 
-      <% @tree.each_blob do |file| %>
-      <a href='<%= repo_path(@repo[:name]) %>/master/<%= file[:name] %>'><li class='file'>
+      <% @current_tree.each_blob do |file| %>
+      <a href='<%= request.env['PATH_INFO'] %>/<%= file[:name] %>'><li class='file'>
         <span class='symbol'></span>
         <span class='name'><%= file[:name] %></span>
       </li></a>
       <% end %>
     </ul>
-  </div>
-  <div id='repo-document'>
-    <% if @readme %>
-    <div><%= simple_format(@readme_content) %>
-    <% else %>
-    <div>Please add a README.md to the repository</div>
+    <% elsif not @blob_content.nil? and @current_tree.nil? %>
+    <div><%= simple_format(@blob_content) %>
     <% end %>
   </div>
 </div>
