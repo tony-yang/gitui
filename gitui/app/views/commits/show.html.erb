@@ -16,12 +16,14 @@
     <% unless @commits.nil? %>
     <ul>
       <% @commits.each do |commit| %>
-        <li class='commit-item'>
-          <div><%= commit[:message] %></div>
-          <div><%= commit[:author][:name] %></div>
-          <div><%= commit[:time] %></div>
-          <div><%= commit[:sha] %></div>
-        </li>
+        <a href='/repos/<%= @repo_name %>/commit/<%= commit[:sha] %>'>
+          <li class='commit-item'>
+            <div><%= commit[:message] %></div>
+            <div><%= commit[:author][:name] %></div>
+            <div><%= commit[:time] %></div>
+            <div><%= commit[:sha] %></div>
+          </li>
+        </a>
       <% end %>
     </ul>
     <% else %>

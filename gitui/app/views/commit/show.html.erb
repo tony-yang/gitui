@@ -1,0 +1,68 @@
+<h2>Diffs</h2>
+
+<div id='diff'>
+  <div id='commit-metadata'>
+    <div><%= @commit_metadata[:message] %></div>
+    <div><%= @commit_metadata[:author][:name] %></div>
+    <div><%= @commit_metadata[:time] %></div>
+    <div>
+      <%= pluralize(@commit_metadata[:parent_ids].count, 'parent') %>
+      <ul>
+      <% @commit_metadata[:parent_ids].each do |id| %>
+        <li><%= id %></li>
+      <% end %>
+      </ul>
+    </div>
+    <div><%= @commit_metadata[:sha] %> </div>
+  </div>
+
+  <div id='diff-content'>
+    <% if @diff_content.empty? %>
+      <div>No file change</div>
+    <% else %>
+      <% @diff_content.each do |d| %>
+      <div class='diff'>
+        <div class='diff-header'>
+          <div class='changes'><%= pluralize(d[:changes], 'change') %></div>
+          <div class='additions'><%= pluralize(d[:additions], 'addition') %></div>
+          <div class='deletions'><%= pluralize(d[:deletions], 'deletion') %></div>
+          <% if d[:old_file] == d[:new_file] %>
+            <div class='name'><%= d[:new_file] %></div>
+          <% else %>
+            <div class='name'><%= d[:old_file] %> &rarr; <%= d[:new_file] %></div>
+          <% end %>
+        </div>
+        <div class='diff-patch'>
+          <table class='diff-table'>
+            <tbody>
+            <% d[:diff][:old].each_index do |index| %>
+              <% if d[:diff][:old][index][:line] =~ /^@/ %>
+                <tr class='hunk'>
+                  <td>&nbsp;</td>
+                  <td colspan='3'><%= d[:diff][:old][index][:line] %></td>
+                </tr>
+              <% else %>
+                <tr class='patch'>
+                  <td class='line-number <%= d[:diff][:old][index][:line_type] %>'>
+                    <%= d[:diff][:old][index][:line_num] %>
+                  </td>
+                  <td class='old-line <%= d[:diff][:old][index][:line_type] %>'>
+                    <%= d[:diff][:old][index][:line] %>
+                  </td>
+                  <td class='line-number <%= d[:diff][:new][index][:line_type] %>'>
+                    <%= d[:diff][:new][index][:line_num] %>
+                  </td>
+                  <td class='new-line <%= d[:diff][:new][index][:line_type] %>'>
+                    <%= d[:diff][:new][index][:line] %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -37,8 +37,7 @@ class ReposController < ApplicationController
           @metadata[:number_of_commits] = walker.count
           walker.reset
 
-          local_branches = repo_data.branches.each_name(:local).sort
-          @metadata[:local_branches] = local_branches
+          @metadata[:local_branches] = repo_data.branches.each_name(:local).sort
 
           # The repo-content section
           @tree = repo_data.lookup(last_commit.tree.oid)
@@ -74,8 +73,7 @@ class ReposController < ApplicationController
           last_commit_sha = repo_data.head.target_id
           last_commit = repo_data.lookup(last_commit_sha)
 
-          local_branches = repo_data.branches.each_name(:local).sort
-          @metadata[:local_branches] = local_branches
+          @metadata[:local_branches] = repo_data.branches.each_name(:local).sort
 
           # The repo-content section
           tree = repo_data.lookup(last_commit.tree.oid)

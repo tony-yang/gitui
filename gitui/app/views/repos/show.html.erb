@@ -11,7 +11,11 @@
       </div>
     </div>
 
-    <div class='git-branch-commit-count'><%= pluralize(@metadata[:number_of_commits], 'commit') %></div>
+    <div class='git-branch-commit-count'>
+      <a href='<%= repo_commit_path(@repo[:name], 'master') %>'>
+        <%= pluralize(@metadata[:number_of_commits], 'commit') %>
+      </a>
+    </div>
   </div>
   <div id='repo-content'>
     <ul>
