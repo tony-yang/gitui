@@ -10,7 +10,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'repos/:repo_name/commit/:sha/*tree', to: 'commit#show', constraints: { sha: /[\h.]+/, tree: /.+/ }
+  get 'repos/:repo_name/commit/:sha', to: 'commit#show', constraints: { sha: /[\h.]+/ }
+  get 'repos/:repo_name/commit/:sha/*tree', to: 'commit#show', constraints: { sha: /[\h.]+/ }
   get 'repos/:name/:branch/*tree', to: 'repos#show_content', constraints: { tree: /.+/ }
 
   root 'repos#index'
