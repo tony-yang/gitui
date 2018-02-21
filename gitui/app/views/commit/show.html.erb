@@ -1,3 +1,20 @@
+<nav aria-label='breadcrumb'>
+  <ol class='breadcrumb'>
+    <li class='breadcrumb-item'>
+      <a href='/repos'>Repositories</a>
+    </li>
+    <li class='breadcrumb-item'>
+      <a href='<%= repo_path(@repo_name) %>'><%= @repo_name %></a>
+    </li>
+    <li class='breadcrumb-item'>
+      <a href='<%= repo_commit_path(@repo_name, "master") %>'>Commits</a>
+    </li>
+    <li class='breadcrumb-item active' aria-current='page'>
+      <%= @commit_metadata[:sha]%>
+    </li>
+  </ol>
+</nav>
+
 <h2>Diffs</h2>
 
 <div id='diff'>

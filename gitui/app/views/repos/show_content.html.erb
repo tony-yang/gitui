@@ -1,3 +1,14 @@
+<nav aria-label='breadcrumb'>
+  <ol class='breadcrumb'>
+    <li class='breadcrumb-item'>
+      <a href='/repos'>Repositories</a>
+    </li>
+    <li class='breadcrumb-item active' aria-current='page'>
+      <a href='<%= repo_path(@repo.name) %>'><%= @repo.name %></a>
+    </li>
+  </ol>
+</nav>
+
 <h2><%= @repo.name %></h2>
 <div id='repo'>
   <div id='repo-metadata'>

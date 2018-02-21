@@ -1,9 +1,9 @@
 class CommitController < ApplicationController
   def show
-    repo_name = params[:repo_name]
+    @repo_name = params[:repo_name]
     sha_path = params[:sha]
 
-    repo_url_inside_container = repo_url_in_container_mapping(repo_name)
+    repo_url_inside_container = repo_url_in_container_mapping(@repo_name)
 
     @commit_metadata = {}
     @diff_content = []
@@ -18,7 +18,7 @@ class CommitController < ApplicationController
             @commit_metadata = generate_commit_metadata(selected_sha_two_commit)
             @diff_content = generate_diff_content(selected_sha_one_commit, selected_sha_two_commit)
           rescue
-            redirect_to repo_commit_path(repo_name, 'master')
+            redirect_to repo_commit_path(@repo_name, 'master')
           end
         elsif /(?<selected_sha>\h+)/ =~ sha_path
           begin
@@ -32,7 +32,7 @@ class CommitController < ApplicationController
             @commit_metadata = generate_commit_metadata(selected_sha_commit)
             @diff_content = generate_diff_content(previous_commit, selected_sha_commit)
           rescue
-            redirect_to repo_commit_path(repo_name, 'master')
+            redirect_to repo_commit_path(@repo_name, 'master')
           end
         else
           begin
@@ -47,7 +47,7 @@ class CommitController < ApplicationController
             @commit_metadata = generate_commit_metadata(last_commit)
             @diff_content = generate_diff_content(previous_commit, last_commit)
           rescue
-            redirect_to repo_commit_path(repo_name, 'master')
+            redirect_to repo_commit_path(@repo_name, 'master')
           end
         end
       end
