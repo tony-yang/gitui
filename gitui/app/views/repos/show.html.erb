@@ -47,7 +47,7 @@
   </div>
   <div id='repo-document'>
     <% if @readme %>
-    <div><%= simple_format(@readme_content) %>
+    <pre class='language-markdown'><code class='language-markdown'><%= @readme_content %></code></pre>
     <% else %>
     <div>Please add a README.md to the repository</div>
     <% end %>

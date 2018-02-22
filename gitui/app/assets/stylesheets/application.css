@@ -12,4 +12,14 @@
  *
  *= require_tree .
  *= require_self
+ *= require prism
  */
+
+body {
+  color: #fff;
+  background-color: #333;
+}
+
+nav .breadcrumb {
+  background-color: #333;
+}

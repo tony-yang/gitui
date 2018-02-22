@@ -1,4 +1,5 @@
 class ReposController < ApplicationController
+  #protect_from_forgery except: :show_content
   def index
     all_repos = Repo.all.reverse
     @repos = []
@@ -50,9 +51,7 @@ class ReposController < ApplicationController
 
           # The repo readme section
           readme_blob = repo_data.lookup(@readme[:oid])
-          # ActionViewer simple_format only converts \n\n to <p>
-          # Single \n converts to <br> which is considered bad semantic
-          @readme_content = readme_blob.content.gsub(/\n/, "\n\n")
+          @readme_content = readme_blob.content
         end
     end
   end
@@ -63,7 +62,7 @@ class ReposController < ApplicationController
     current_tree_oid = nil
     current_tree_type = nil
     @metadata = {}
-    @blob_content = nil
+    @blob_content = {lang: 'other', content: nil}
     @current_tree = nil
 
     repo_url_inside_container = repo_url_in_container_mapping(@repo[:name])
@@ -90,11 +89,17 @@ class ReposController < ApplicationController
 
           if current_tree_type == :blob
             blob = repo_data.lookup(current_tree_oid)
-            @blob_content = blob.content.gsub(/\n/, "\n\n")
+            @blob_content[:lang] = language_detector(tree_path[-1])
+            @blob_content[:content] = blob.content
           elsif current_tree_type == :tree
             @current_tree = repo_data.lookup(current_tree_oid)
           end
         end
+    end
+
+    respond_to do |format|
+      format.any { render 'show_content.html.erb', content_type: 'text/html' }
+      format.js { render 'show_content.html.erb', content_type: 'text/html', layout: 'application.html.erb'}
     end
   end
 
@@ -151,5 +156,64 @@ class ReposController < ApplicationController
       options[:parents] = repo.empty? ? [] : [ repo.head.target ].compact
       options[:update_ref] = 'HEAD'
       Rugged::Commit.create(repo, options)
+    end
+
+    def language_detector(filename)
+      language = ''
+      if 'Dockerfile' == filename
+        language = 'docker'
+      elsif 'Makefile' == filename
+        language = 'makefile'
+      else
+        /(.+)\.(?<file_extension>\w+)/ =~ filename
+
+        case file_extension
+        when 'arduino'
+          language = 'arduino'
+        when 'sh'
+          language = 'bash'
+        when 'c'
+          language = 'c'
+        when 'coffee'
+          language = 'coffeescript'
+        when 'cpp'
+          language = 'cpp'
+        when 'css'
+          language = 'css'
+        when 'diff'
+          language = 'diff'
+        when 'go'
+          language = 'go'
+        when 'html'
+          language = 'html'
+        when 'java'
+          language = 'java'
+        when 'js'
+          language = 'javascript'
+        when 'json'
+          language = 'json'
+        when 'md'
+          language = 'markdown'
+        when 'pl'
+          language = 'perl'
+        when 'php'
+          language = 'php'
+        when 'py'
+          language = 'python'
+        when 'rb'
+          language = 'ruby'
+        when 'erb'
+          language = 'html'
+        when 'sql'
+          language = 'sql'
+        when 'ts'
+          language = 'typescript'
+        when 'yml'
+          language = 'yaml'
+        else
+          language = 'other'
+        end
+      end
+      return language
     end
 end

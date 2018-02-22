@@ -22,7 +22,7 @@
     </div>
   </div>
   <div id='repo-content'>
-    <% if @blob_content.nil? and not @current_tree.nil? %>
+    <% if @blob_content[:content].nil? and not @current_tree.nil? %>
     <ul>
       <% @current_tree.each_tree do |dir| %>
       <a href='<%= request.env['PATH_INFO'] %>/<%= dir[:name] %>'><li class='directory'>
@@ -38,8 +38,8 @@
       </li></a>
       <% end %>
     </ul>
-    <% elsif not @blob_content.nil? and @current_tree.nil? %>
-    <div><%= simple_format(@blob_content) %>
+    <% elsif not @blob_content[:content].nil? and @current_tree.nil? %>
+    <pre class='language-<%= @blob_content[:lang] %>'><code class='language-<%= @blob_content[:lang] %>'><%= @blob_content[:content] %></code></pre>
     <% end %>
   </div>
 </div>

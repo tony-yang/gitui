@@ -18,6 +18,19 @@ rails server -p 11111 -b 0.0.0.0
 ```
 
 
+## TODO
+- Add styling
+- Add a way to setup and teardown test git repos in order to run proper system/integration tests
+- Add system/integration tests
+- Investigate coverage report
+- Add a login page
+- Refactor functional code in the controller into modules/methods and move it out of the controller
+- Refactor views to better reuse code snippets
+- Add ability to select commits to diff using dropdown
+- Ability to view different branches
+- Add a catch all redirect 404 page instead of crash
+
+
 ## Resources
 The core git library that GitLab and GitHub used for interfacing between git and the programming env
 https://libgit2.github.com/
@@ -35,3 +48,6 @@ https://about.gitlab.com/handbook/infrastructure/production-architecture/
 
 StackOverflow article
 https://stackoverflow.com/questions/4892602/how-does-the-github-website-work-architecture
+
+Syntax highlight library
+http://prismjs.com
