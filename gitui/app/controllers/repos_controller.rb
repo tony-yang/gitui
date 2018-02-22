@@ -8,6 +8,7 @@ class ReposController < ApplicationController
       current_repo = {}
       if Dir.exist? repo_url_inside_container
         repo.attributes.each {|k, v| current_repo[k.to_sym] = v}
+        current_repo[:url] = "git@#{request.host}:#{current_repo[:url]}"
         repo_data = Rugged::Repository.new(repo_url_inside_container)
         unless repo_data.head_unborn?
           last_commit_sha = repo_data.head.target_id
@@ -22,6 +23,7 @@ class ReposController < ApplicationController
 
   def show
     @repo = Repo.find_by(name: params[:name])
+    @repo[:url] = "git@#{request.host}:#{@repo[:url]}"
     @metadata = {}
     @readme = nil
 
