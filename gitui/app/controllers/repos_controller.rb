@@ -25,7 +25,8 @@ class ReposController < ApplicationController
     @repo = Repo.find_by(name: params[:name])
     @repo[:url] = "git@#{request.host}:#{@repo[:url]}"
     @metadata = {}
-    @readme = nil
+    @tree = nil
+    readme = nil
 
     repo_url_inside_container = repo_url_in_container_mapping(@repo[:name])
     if Dir.exists? repo_url_inside_container
@@ -46,14 +47,17 @@ class ReposController < ApplicationController
           @tree = repo_data.lookup(last_commit.tree.oid)
           @tree.each_blob do |file|
             if file[:name] == 'README.md'
-              @readme = file
+              readme = file
               break
             end
           end
 
           # The repo readme section
-          readme_blob = repo_data.lookup(@readme[:oid])
-          @readme_content = readme_blob.content
+          if readme
+            @readme_content = repo_data.lookup(readme[:oid]).content
+          else
+            @readme_content = "Please add a README.md to the repository"
+          end
         end
     end
   end

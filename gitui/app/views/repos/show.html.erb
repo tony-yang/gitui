@@ -11,6 +11,7 @@
 
 <h2><%= @repo.name %></h2>
 <div id='repo'>
+  <% if @tree %>
   <div id='repo-metadata'>
     <div class='git-url'><%= @repo.url %></div>
     <div class='dropdown show git-branch'>
@@ -46,10 +47,9 @@
     </ul>
   </div>
   <div id='repo-document'>
-    <% if @readme %>
     <pre class='language-markdown'><code class='language-markdown'><%= @readme_content %></code></pre>
-    <% else %>
-    <div>Please add a README.md to the repository</div>
-    <% end %>
   </div>
+  <% else %>
+  <div>Empty Repository</div>
+  <% end %>
 </div>

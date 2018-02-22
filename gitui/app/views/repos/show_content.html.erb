@@ -39,7 +39,7 @@
       <% end %>
     </ul>
     <% elsif not @blob_content[:content].nil? and @current_tree.nil? %>
-    <pre class='language-<%= @blob_content[:lang] %>'><code class='language-<%= @blob_content[:lang] %>'><%= @blob_content[:content] %></code></pre>
+    <pre class='line-numbers language-<%= @blob_content[:lang] %>'><code class='language-<%= @blob_content[:lang] %>'><%= @blob_content[:content] %></code></pre>
     <% end %>
   </div>
 </div>
