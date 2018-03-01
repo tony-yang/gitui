@@ -135,13 +135,17 @@ class CommitController < ApplicationController
               }}
               diff_in_parallel[:old].concat(additional_line)
             end
-            if /^@/ =~ diff[index]
+            if /^@@/ =~ diff[index]
               diff_in_parallel[:old].push({
                 line: diff[index], line_num: '', line_type: ''
               })
               diff_in_parallel[:new].push({
                 line: diff[index], line_num: '', line_type: ''
               })
+
+              /^@@\s\-(?<hunk_old_line_num>\d+)(\,\d+)?\s\+(?<hunk_new_line_num>\d+)(\,\d+)?\s@@/ =~ diff[index]
+              line_num_in_old = hunk_old_line_num.to_i
+              line_num_in_new = hunk_new_line_num.to_i
             elsif /^\\ No newline at end of file/ =~ diff[index]
               next
             else
