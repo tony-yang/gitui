@@ -79,10 +79,23 @@ class CommitController < ApplicationController
           deletions: d.deletions,
           old_file: d.delta.old_file[:path],
           new_file: d.delta.new_file[:path],
+          lang: language_detector(d.delta.new_file[:path]),
           diff: diff_patch_to_parallel_view(d.to_s)
         })
       end
       return diff_content
+    end
+
+    def find_end_of_header_index(diff)
+      index = 0
+      diff.each do |diff_item|
+        if /^\+\+\+/ =~ diff_item
+          break
+        else
+          index += 1
+        end
+      end
+      return index
     end
 
     def diff_patch_to_parallel_view(diff_patch)
@@ -90,9 +103,10 @@ class CommitController < ApplicationController
       line_num_in_old = 1
       line_num_in_new = 1
       diff = diff_patch.split("\n")
+      end_of_header_index = find_end_of_header_index(diff)
       diff.each_index do |index|
         # Skip the header section of the diff patch
-        if index > 3
+        if index > end_of_header_index
           if /^-/ =~ diff[index]
             diff_in_parallel[:old].push({
               line: diff[index],
@@ -163,5 +177,64 @@ class CommitController < ApplicationController
       end
 
       return diff_in_parallel
+    end
+
+    def language_detector(filename)
+      language = ''
+      if 'Dockerfile' == filename
+        language = 'docker'
+      elsif 'Makefile' == filename
+        language = 'makefile'
+      else
+        /(.+)\.(?<file_extension>\w+)/ =~ filename
+
+        case file_extension
+        when 'arduino'
+          language = 'arduino'
+        when 'sh'
+          language = 'bash'
+        when 'c'
+          language = 'c'
+        when 'coffee'
+          language = 'coffeescript'
+        when 'cpp'
+          language = 'cpp'
+        when 'css'
+          language = 'css'
+        when 'diff'
+          language = 'diff'
+        when 'go'
+          language = 'go'
+        when 'html'
+          language = 'html'
+        when 'java'
+          language = 'java'
+        when 'js'
+          language = 'javascript'
+        when 'json'
+          language = 'json'
+        when 'md'
+          language = 'markdown'
+        when 'pl'
+          language = 'perl'
+        when 'php'
+          language = 'php'
+        when 'py'
+          language = 'python'
+        when 'rb'
+          language = 'ruby'
+        when 'erb'
+          language = 'html'
+        when 'sql'
+          language = 'sql'
+        when 'ts'
+          language = 'typescript'
+        when 'yml'
+          language = 'yaml'
+        else
+          language = 'other'
+        end
+      end
+      return language
     end
 end

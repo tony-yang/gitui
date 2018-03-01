@@ -23,3 +23,7 @@ body {
 nav .breadcrumb {
   background-color: #333;
 }
+
+.main {
+  padding: 0rem 1.5rem
+}

@@ -38,8 +38,8 @@
       <div>No file change</div>
     <% else %>
       <% @diff_content.each do |d| %>
-      <div class='diff'>
-        <div class='diff-header'>
+      <div class='diff card bg-dark mb-3'>
+        <div class='diff-header card-header'>
           <div class='changes'><%= pluralize(d[:changes], 'change') %></div>
           <div class='additions'><%= pluralize(d[:additions], 'addition') %></div>
           <div class='deletions'><%= pluralize(d[:deletions], 'deletion') %></div>
@@ -49,10 +49,10 @@
             <div class='name'><%= d[:old_file] %> &rarr; <%= d[:new_file] %></div>
           <% end %>
         </div>
-        <div class='diff-patch'>
+        <div class='diff-patch card-body'>
           <table class='diff-table'>
             <tbody>
-            <% d[:diff][:old].each_index do |index| %>
+            <% d[:diff][:new].each_index do |index| %>
               <% if d[:diff][:old][index][:line] =~ /^@/ %>
                 <tr class='hunk'>
                   <td>&nbsp;</td>
@@ -64,13 +64,13 @@
                     <%= d[:diff][:old][index][:line_num] %>
                   </td>
                   <td class='old-line <%= d[:diff][:old][index][:line_type] %>'>
-                    <%= d[:diff][:old][index][:line] %>
+                    <pre class='language-<%= d[:lang] %>'><code class='language-<%= d[:lang] %>'><%= d[:diff][:old][index][:line] %></code></pre>
                   </td>
                   <td class='line-number <%= d[:diff][:new][index][:line_type] %>'>
                     <%= d[:diff][:new][index][:line_num] %>
                   </td>
                   <td class='new-line <%= d[:diff][:new][index][:line_type] %>'>
-                    <%= d[:diff][:new][index][:line] %>
+                    <pre class='language-<%= d[:lang] %>'><code class='language-<%= d[:lang] %>'><%= d[:diff][:new][index][:line] %></code></pre>
                   </td>
                 </tr>
               <% end %>

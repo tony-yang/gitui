@@ -1,3 +1,83 @@
 // Place all the styles related to the Commit controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$header-addition-color: #2cbe4e;
+$header-deletion-color: #cb2431;
+$content-addition-color: rgba(156, 204, 101, .15);
+$content-deletion-color: rgba(239, 83, 80, .15);
+$hunk-background: #444;
+
+.diff-header div {
+  float: left
+}
+
+.additions {
+  color: $header-addition-color;
+  margin-left: 15px;
+}
+
+.deletions {
+  color: $header-deletion-color;
+  margin-left: 15px;
+}
+
+.diff-header .name {
+  color: #ddd;
+  float: right;
+}
+
+.diff-patch.card-body {
+  padding: 1.25rem 0rem 0rem;
+}
+
+.diff-patch table {
+  width: 100%;
+}
+
+.diff-table tr:last-child td {
+  padding-bottom: 10px;
+}
+
+.hunk {
+  background-color: $hunk-background;
+  color: #ddd;
+}
+
+.patch td {
+  width: 49%;
+  padding: 0px 10px;
+  vertical-align: top;
+}
+
+.patch td.line-number {
+  width: 1%;
+  min-width: 50px;
+  background-color: rgba(0,0,0,.1);
+  padding: 0px 5px;
+  text-align: right;
+  font-family: Consolas, Courier, Monaco, monospace;
+  font-size: 12px;
+}
+
+.patch pre[class*='language-'] {
+  background-color: transparent;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  line-height: 20px;
+  white-space: pre-wrap;
+}
+
+.patch code[class*='language-'] {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.delete-line {
+  background-color: $content-deletion-color;
+}
+
+.add-line {
+  background-color: $content-addition-color;
+}
