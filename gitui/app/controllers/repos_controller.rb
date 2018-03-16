@@ -15,6 +15,8 @@ class ReposController < ApplicationController
           last_commit = repo_data.lookup(last_commit_sha)
           current_repo[:last_commit_time] = last_commit.time
           current_repo[:last_commit_message] = last_commit.message
+        else
+          current_repo[:last_commit_message] = 'Empty repository'
         end
         @repos.push(current_repo)
       end

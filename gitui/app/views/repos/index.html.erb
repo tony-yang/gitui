@@ -12,8 +12,8 @@
     <a href='<%= repo_path(repo[:name]) %>'><li class='repository-item'>
       <h3><%= repo[:name] %></h3>
       <div class='git-url'><%= repo[:url] %></div>
-      <div><%= repo[:last_commit_message] %></div>
-      <div><%= repo[:last_commit_time] %></div>
+      <div class='last-commit-message'><%= repo[:last_commit_message] %></div>
+      <div class='last-commit-time'><%= repo[:last_commit_time] %></div>
     </li></a>
 <% end %>
   </ul>

@@ -13,7 +13,10 @@
 <div id='repo'>
   <% if @tree %>
   <div id='repo-metadata'>
-    <div class='git-url'><%= @repo.url %></div>
+    <div class='git-url'>
+      <span class='protocol'>SSH:</span>
+      <span class='url'><%= @repo.url %></span>
+    </div>
     <div class='dropdown show git-branch'>
       <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink'>Branch: <%= @metadata[:local_branches][0] %></a>
       <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
@@ -24,29 +27,46 @@
     </div>
 
     <div class='git-branch-commit-count'>
+      <span class='history'>History:</span>
       <a href='<%= repo_commit_path(@repo[:name], 'master') %>'>
         <%= pluralize(@metadata[:number_of_commits], 'commit') %>
       </a>
     </div>
   </div>
   <div id='repo-content'>
-    <ul>
-      <% @tree.each_tree do |dir| %>
-      <a href='<%= repo_path(@repo[:name]) %>/master/<%= dir[:name] %>'><li class='directory'>
-        <span class='symbol'>+</span>
-        <span class='name'><%= dir[:name] %></span>
-      </li></a>
-      <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th>Node Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tree.each_tree do |dir| %>
+        <tr class='directory'>
+          <td>
+            <a href='<%= repo_path(@repo[:name]) %>/master/<%= dir[:name] %>'>
+              <span class='symbol'>+</span>
+              <span class='name'><%= dir[:name] %></span>
+            </a>
+          </td>
+        </tr>
+        <% end %>
 
-      <% @tree.each_blob do |file| %>
-      <a href='<%= repo_path(@repo[:name]) %>/master/<%= file[:name] %>'><li class='file'>
-        <span class='symbol'></span>
-        <span class='name'><%= file[:name] %></span>
-      </li></a>
-      <% end %>
-    </ul>
+        <% @tree.each_blob do |file| %>
+        <tr class='file'>
+          <td>
+            <a href='<%= repo_path(@repo[:name]) %>/master/<%= file[:name] %>'>
+              <span class='symbol'></span>
+              <span class='name'><%= file[:name] %></span>
+            </a>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
   <div id='repo-document'>
+    <h3>README.md</h3>
     <pre class='language-markdown'><code class='language-markdown'><%= @readme_content %></code></pre>
   </div>
   <% else %>

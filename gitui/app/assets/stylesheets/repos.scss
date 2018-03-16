@@ -1,3 +1,143 @@
 // Place all the styles related to the Repos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#repositories ul {
+  padding: 0px 40px;
+}
+
+#repositories a {
+  display: block;
+  border-bottom: 1px solid #999;
+}
+
+#repositories a:last-child {
+  border-bottom: 0px;
+}
+
+#repositories li {
+  padding: 15px 0px;
+  position: relative;
+}
+
+#repositories h3 {
+  float: left;
+  margin: 0px;
+  padding-right: 30px;
+}
+
+#repositories .git-url {
+  line-height: 30px;
+}
+
+#repositories .last-commit-message {
+  margin-top: 10px;
+  padding-right: 250px;
+}
+
+#repositories .last-commit-time {
+  position: absolute;
+  right: 0px;
+  top: 55px;
+}
+
+#new-repo {
+  width: 600px;
+  margin-left: 50%;
+  position: relative;
+  left: -300px;
+}
+
+#new-repo .form-check input,
+#new-repo .form-check label {
+  position: relative;
+  left: 20px;
+}
+
+#new-repo input[type='submit'] {
+  margin-top: 50px;
+}
+
+#repo-metadata {
+  position: relative;
+}
+
+#repo-metadata .git-url,
+#repo-metadata .git-branch-commit-count {
+  border: 1px solid #999;
+  border-radius: 5px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 99;
+}
+
+#repo-metadata .git-url {
+  top: -46px;
+}
+
+#repo-metadata .git-url .protocol,
+#repo-metadata .git-branch-commit-count .history {
+  display: inline-block;
+  border-right: 1px solid #999;
+  padding: 7px 20px;
+  background-color: #666;
+}
+
+#repo-metadata .git-url .url,
+#repo-metadata .git-branch-commit-count a {
+  display: inline-block;
+  padding: 7px 20px;
+  cursor: text;
+}
+
+#repo-metadata .git-branch-commit-count {
+  display: inline-block;
+}
+
+#repo-metadata .git-branch-commit-count a {
+  cursor: pointer;
+}
+
+#repo-content,
+#repo-document {
+  margin: 30px 0px;
+}
+
+#repo-content table {
+  width: 100%;
+}
+
+#repo-content table th {
+  padding: 10px 20px 10px 33px;
+  background-color: #666;
+}
+
+#repo-content table td {
+  padding: 5px 20px;
+  background-color: #272822;
+}
+
+#repo-content table td a {
+  display: inline-block;
+  width: 100%;
+}
+
+#repo-content table .file td {
+  padding-left: 33px;
+}
+
+#repo-document h3 {
+  background-color: #666;
+  margin: 0px;
+  padding: 10px 15px;
+  font-size: 1.25em;
+}
+
+#repo-document pre {
+  margin-top: 0px;
+}
+
+#repo-document code[class*='language-'] {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

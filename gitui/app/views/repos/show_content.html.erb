@@ -23,21 +23,36 @@
   </div>
   <div id='repo-content'>
     <% if @blob_content[:content].nil? and not @current_tree.nil? %>
-    <ul>
-      <% @current_tree.each_tree do |dir| %>
-      <a href='<%= request.env['PATH_INFO'] %>/<%= dir[:name] %>'><li class='directory'>
-        <span class='symbol'>+</span>
-        <span class='name'><%= dir[:name] %></span>
-      </li></a>
-      <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th>Node Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @current_tree.each_tree do |dir| %>
+        <tr class='directory'>
+          <td>
+            <a href='<%= request.env['PATH_INFO'] %>/<%= dir[:name] %>'>
+              <span class='symbol'>+</span>
+              <span class='name'><%= dir[:name] %></span>
+            </a>
+          </td>
+        </tr>
+        <% end %>
 
-      <% @current_tree.each_blob do |file| %>
-      <a href='<%= request.env['PATH_INFO'] %>/<%= file[:name] %>'><li class='file'>
-        <span class='symbol'></span>
-        <span class='name'><%= file[:name] %></span>
-      </li></a>
-      <% end %>
-    </ul>
+        <% @current_tree.each_blob do |file| %>
+        <tr class='file'>
+          <td>
+            <a href='<%= request.env['PATH_INFO'] %>/<%= file[:name] %>'>
+              <span class='symbol'></span>
+              <span class='name'><%= file[:name] %></span>
+            </a>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
     <% elsif not @blob_content[:content].nil? and @current_tree.nil? %>
     <pre class='line-numbers language-<%= @blob_content[:lang] %>'><code class='language-<%= @blob_content[:lang] %>'><%= @blob_content[:content] %></code></pre>
     <% end %>

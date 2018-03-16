@@ -10,9 +10,12 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require bootstrap
+ *= require bootstrap-reboot
+ *= require bootstrap-grid
+ *= require prism
  *= require_tree .
  *= require_self
- *= require prism
  */
 
 body {
@@ -26,4 +29,21 @@ nav .breadcrumb {
 
 .main {
   padding: 0rem 1.5rem
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+a {
+  color: #ccc;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
 }
