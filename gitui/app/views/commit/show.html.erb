@@ -19,18 +19,22 @@
 
 <div id='diff'>
   <div id='commit-metadata'>
-    <div><%= @commit_metadata[:message] %></div>
-    <div><%= @commit_metadata[:author][:name] %></div>
-    <div><%= @commit_metadata[:time] %></div>
-    <div>
-      <%= pluralize(@commit_metadata[:parent_ids].count, 'parent') %>
-      <ul>
-      <% @commit_metadata[:parent_ids].each do |id| %>
-        <li><%= id %></li>
-      <% end %>
-      </ul>
+    <h3><span>Commit:</span><%= @commit_metadata[:sha] %></h3>
+    <div class='detail'>
+      <div class='message'><%= @commit_metadata[:message] %></div>
+      <div class='author'><span>Committed by</span><%= @commit_metadata[:author][:name] %></div>
+      <div class='time'><span>on</span><%= @commit_metadata[:time] %></div>
+      <div class='parents'>
+        <span><%= pluralize(@commit_metadata[:parent_ids].count, 'parent') %>:</span>
+        <span>[</span>
+        <ul>
+        <% @commit_metadata[:parent_ids].each do |id| %>
+          <li><a href='/repos/<%= @repo_name %>/commit/<%= id %>'><%= id %></a></li>
+        <% end %>
+        </ul>
+        <span>]</span>
+      </div>
     </div>
-    <div><%= @commit_metadata[:sha] %> </div>
   </div>
 
   <div id='diff-content'>

@@ -1,13 +1,17 @@
 // Place all the styles related to the Repos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$border-color: #999;
+$header-background-color: #666;
+$content-background-color: #272822;
+
 #repositories ul {
   padding: 0px 40px;
 }
 
 #repositories a {
   display: block;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid $border-color;
 }
 
 #repositories a:last-child {
@@ -63,7 +67,7 @@
 
 #repo-metadata .git-url,
 #repo-metadata .git-branch-commit-count {
-  border: 1px solid #999;
+  border: 1px solid $border-color;
   border-radius: 5px;
   position: absolute;
   top: 0px;
@@ -78,9 +82,9 @@
 #repo-metadata .git-url .protocol,
 #repo-metadata .git-branch-commit-count .history {
   display: inline-block;
-  border-right: 1px solid #999;
+  border-right: 1px solid $border-color;
   padding: 7px 20px;
-  background-color: #666;
+  background-color: $header-background-color;
 }
 
 #repo-metadata .git-url .url,
@@ -109,12 +113,12 @@
 
 #repo-content table th {
   padding: 10px 20px 10px 33px;
-  background-color: #666;
+  background-color: $header-background-color;
 }
 
 #repo-content table td {
   padding: 5px 20px;
-  background-color: #272822;
+  background-color: $content-background-color;
 }
 
 #repo-content table td a {
@@ -127,7 +131,7 @@
 }
 
 #repo-document h3 {
-  background-color: #666;
+  background-color: $header-background-color;
   margin: 0px;
   padding: 10px 15px;
   font-size: 1.25em;
