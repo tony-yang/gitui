@@ -51,12 +51,6 @@ $content-background-color: #272822;
   left: -300px;
 }
 
-#new-repo .form-check input,
-#new-repo .form-check label {
-  position: relative;
-  left: 20px;
-}
-
 #new-repo input[type='submit'] {
   margin-top: 50px;
 }
@@ -141,7 +135,8 @@ $content-background-color: #272822;
   margin-top: 0px;
 }
 
-#repo-document code[class*='language-'] {
+#repo-document code[class*='language-'],
+#repo-content code[class*='language-'] {
   white-space: pre-wrap;
   word-break: break-word;
 }

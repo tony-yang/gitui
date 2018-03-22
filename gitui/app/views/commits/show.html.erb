@@ -22,6 +22,25 @@
         <% end %>
       </div>
     </div>
+    <div class='multi-commits-diff'>
+      <div class='input-group mb-3'>
+        <div class='input-group-prepend'>
+          <span class='input-group-text'>Commit 1:</span>
+        </div>
+        <input type='text' id='commit1' class='form-control' placeholder='Compare from' aria-label='Compare from' aria-describedby='Commit 1'>
+      </div>
+
+      <div class='input-group mb-3'>
+        <div class='input-group-prepend'>
+          <span class='input-group-text'>Commit 2:</span>
+        </div>
+        <input type='text' id='commit2' class='form-control' placeholder='Compare to' aria-label='Compare to' aria-describedby='Commit 2'>
+      </div>
+
+      <div class='compare'>
+        <button id='compare-diffs' class='btn btn-primary'>Compare</a>
+      </div>
+    </div>
   </div>
 
   <div id='histories'>
@@ -31,9 +50,15 @@
         <a href='/repos/<%= @repo_name %>/commit/<%= commit[:sha] %>'>
           <li class='commit-item'>
             <div class='message'><%= commit[:message] %></div>
-            <div class='author'><span>Committed by:</span><%= commit[:author][:name] %></div>
+            <div class='author'>
+              <span>Committed by:</span>
+              <span><%= commit[:author][:name] %></span>
+            </div>
             <div class='time'><%= commit[:time] %></div>
-            <div class='sha'><span>Sha:</span><%= commit[:sha] %></div>
+            <div class='sha'>
+              <span>Sha:</span>
+              <span class='sha-value'><%= commit[:sha] %></span>
+            </div>
           </li>
         </a>
       <% end %>

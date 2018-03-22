@@ -3,6 +3,23 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 $border-color: #999;
+$header-background-color: #666;
+
+#repo-metadata {
+  position: relative;
+}
+
+.multi-commits-diff {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.multi-commits-diff .input-group {
+  width: 40%;
+  margin-right: 10px;
+  float: left;
+}
 
 #histories {
   margin: 30px 0px;
@@ -43,6 +60,8 @@ $border-color: #999;
 
 #histories .sha {
   bottom: 14px;
+  z-index: 99;
+  cursor: text
 }
 
 #histories .commit-item span {
