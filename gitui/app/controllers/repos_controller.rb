@@ -121,6 +121,8 @@ class ReposController < ApplicationController
             @blob_content[:content] = blob.content
           elsif current_tree_type == :tree
             @current_tree = repo_data.lookup(current_tree_oid)
+          else
+            @blob_content[:content] = 'File does not exist at this point'
           end
         end
     end

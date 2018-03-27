@@ -15,7 +15,7 @@
     <%= render 'branch' %>
   </div>
   <div id='repo-content'>
-    <% if @blob_content[:content].nil? and not @current_tree.nil? %>
+  <% if @blob_content[:content].nil? and not @current_tree.nil? %>
     <table>
       <thead>
         <tr>
@@ -46,8 +46,8 @@
         <% end %>
       </tbody>
     </table>
-    <% elsif not @blob_content[:content].nil? and @current_tree.nil? %>
+  <% elsif not @blob_content[:content].nil? and @current_tree.nil? %>
     <pre class='line-numbers language-<%= @blob_content[:lang] %>'><code class='language-<%= @blob_content[:lang] %>'><%= @blob_content[:content] %></code></pre>
-    <% end %>
+  <% end %>
   </div>
 </div>
