@@ -15,10 +15,10 @@
 <div id='commits'>
   <div id='repo-metadata'>
     <div class='dropdown show git-branch'>
-      <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink'>Branch: <%= @metadata[:local_branches][0] %></a>
-      <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
+      <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdown-menu-link' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Branch: <%= @branch %></a>
+      <div class='dropdown-menu' aria-labelledby='dropdown-menu-link'>
         <% @metadata[:local_branches].each do |branch| %>
-          <a class='dropdown-item' href='#'><%= branch %></a>
+          <a class='dropdown-item' href='/repos/<%= ::File.join(@repo_name, 'commits', branch) %>'><%= branch %></a>
         <% end %>
       </div>
     </div>

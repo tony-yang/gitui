@@ -21,7 +21,7 @@
 
     <div class='git-branch-commit-count'>
       <span class='history'>History:</span>
-      <a href='<%= repo_commit_path(@repo[:name], 'master') %>'>
+      <a href='<%= repo_commit_path(@repo[:name], @branch) %>'>
         <%= pluralize(@metadata[:number_of_commits], 'commit') %>
       </a>
     </div>
