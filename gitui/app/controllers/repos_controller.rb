@@ -26,15 +26,23 @@ class ReposController < ApplicationController
   def show
     @repo = Repo.find_by(name: params[:name])
     @repo[:url] = "git@#{request.host}:#{@repo[:url]}"
+    @branch = params[:branch] || 'master'
+    @tree = params[:tree] || ''
     @metadata = {}
-    @tree = nil
+    @tree_nodes = nil
     readme = nil
 
     repo_url_inside_container = repo_url_in_container_mapping(@repo[:name])
     if Dir.exists? repo_url_inside_container
         repo_data = Rugged::Repository.new(repo_url_inside_container)
         unless repo_data.head_unborn?
-          last_commit_sha = repo_data.head.target_id
+          last_commit_sha = nil
+
+          if 'master' != @branch
+            last_commit_sha = repo_data.branches[@branch].target_id
+          else
+            last_commit_sha = repo_data.head.target_id
+          end
           last_commit = repo_data.lookup(last_commit_sha)
 
           # The repo metadata section
@@ -45,9 +53,12 @@ class ReposController < ApplicationController
 
           @metadata[:local_branches] = repo_data.branches.each_name(:local).sort
 
+          tid = repo_data.branches['master'].target_id
+          data = repo_data.lookup(tid)
+
           # The repo-content section
-          @tree = repo_data.lookup(last_commit.tree.oid)
-          @tree.each_blob do |file|
+          @tree_nodes = repo_data.lookup(last_commit.tree.oid)
+          @tree_nodes.each_blob do |file|
             if file[:name] == 'README.md'
               readme = file
               break
@@ -66,6 +77,9 @@ class ReposController < ApplicationController
 
   def show_content
     @repo = Repo.find_by(name: params[:name])
+    @branch = params[:branch] || 'master'
+    @tree = params[:tree] || ''
+
     tree_path = params[:tree].split('/')
     current_tree_oid = nil
     current_tree_type = nil
@@ -77,22 +91,28 @@ class ReposController < ApplicationController
     if Dir.exists? repo_url_inside_container
         repo_data = Rugged::Repository.new(repo_url_inside_container)
         unless repo_data.head_unborn?
-          last_commit_sha = repo_data.head.target_id
+          last_commit_sha = nil
+          if 'master' != @branch
+            last_commit_sha = repo_data.branches[@branch].target_id
+          else
+            last_commit_sha = repo_data.head.target_id
+          end
+
           last_commit = repo_data.lookup(last_commit_sha)
 
           @metadata[:local_branches] = repo_data.branches.each_name(:local).sort
 
           # The repo-content section
-          tree = repo_data.lookup(last_commit.tree.oid)
+          tree_nodes = repo_data.lookup(last_commit.tree.oid)
           tree_path.each do |current_tree_name|
-            tree.each do |item|
+            tree_nodes.each do |item|
               if item[:name] == current_tree_name
                 current_tree_oid = item[:oid]
                 current_tree_type = item[:type]
                 break
               end
             end
-            tree = repo_data.lookup(current_tree_oid) unless current_tree_oid.nil?
+            tree_nodes = repo_data.lookup(current_tree_oid) unless current_tree_oid.nil?
           end
 
           if current_tree_type == :blob

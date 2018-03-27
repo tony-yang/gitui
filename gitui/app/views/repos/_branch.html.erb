@@ -1,0 +1,8 @@
+<div class='dropdown show git-branch'>
+  <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdown-menu-link' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Branch: <%= @branch %></a>
+  <div class='dropdown-menu' aria-labelledby='dropdown-menu-link'>
+    <% @metadata[:local_branches].each do |branch| %>
+      <a class='dropdown-item' href='<%= ::File.join(repo_path(@repo[:name]), branch, @tree) %>'><%= branch %></a>
+    <% end %>
+  </div>
+</div>

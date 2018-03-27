@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap.bundle
 //= require rails-ujs
 //= require turbolinks
 //= require prism

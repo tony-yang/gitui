@@ -11,20 +11,13 @@
 
 <h2><%= @repo.name %></h2>
 <div id='repo'>
-  <% if @tree %>
+  <% if @tree_nodes %>
   <div id='repo-metadata'>
     <div class='git-url'>
       <span class='protocol'>SSH:</span>
       <span class='url'><%= @repo.url %></span>
     </div>
-    <div class='dropdown show git-branch'>
-      <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink'>Branch: <%= @metadata[:local_branches][0] %></a>
-      <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-        <% @metadata[:local_branches].each do |branch| %>
-          <a class='dropdown-item' href='#'><%= branch %></a>
-        <% end %>
-      </div>
-    </div>
+    <%= render 'branch' %>
 
     <div class='git-branch-commit-count'>
       <span class='history'>History:</span>
@@ -41,10 +34,10 @@
         </tr>
       </thead>
       <tbody>
-        <% @tree.each_tree do |dir| %>
+        <% @tree_nodes.each_tree do |dir| %>
         <tr class='directory'>
           <td>
-            <a href='<%= repo_path(@repo[:name]) %>/master/<%= dir[:name] %>'>
+            <a href='<%= ::File.join(repo_path(@repo[:name]), @branch, dir[:name]) %>'>
               <span class='symbol'>+</span>
               <span class='name'><%= dir[:name] %></span>
             </a>
@@ -52,10 +45,10 @@
         </tr>
         <% end %>
 
-        <% @tree.each_blob do |file| %>
+        <% @tree_nodes.each_blob do |file| %>
         <tr class='file'>
           <td>
-            <a href='<%= repo_path(@repo[:name]) %>/master/<%= file[:name] %>'>
+            <a href='<%= ::File.join(repo_path(@repo[:name]), @branch, file[:name]) %>'>
               <span class='symbol'></span>
               <span class='name'><%= file[:name] %></span>
             </a>

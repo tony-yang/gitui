@@ -12,14 +12,7 @@
 <h2><%= @repo.name %></h2>
 <div id='repo'>
   <div id='repo-metadata'>
-    <div class='dropdown show git-branch'>
-      <a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink'>Branch: <%= @metadata[:local_branches][0] %></a>
-      <div class='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-        <% @metadata[:local_branches].each do |branch| %>
-          <a class='dropdown-item' href='#'><%= branch %></a>
-        <% end %>
-      </div>
-    </div>
+    <%= render 'branch' %>
   </div>
   <div id='repo-content'>
     <% if @blob_content[:content].nil? and not @current_tree.nil? %>
