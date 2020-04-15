@@ -1,5 +1,6 @@
 FROM ubuntu
-RUN apt-get update && apt-get install -y \
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     build-essential \
     cmake \
     git \
@@ -15,8 +16,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     wget \
     zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/* \
-    && gem install rails
+ && rm -rf /var/lib/apt/lists/* \
+ && gem install rails
 
 WORKDIR /root
 
