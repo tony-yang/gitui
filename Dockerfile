@@ -6,6 +6,7 @@ RUN apt-get update \
     git \
     libffi-dev \
     libsqlite3-dev \
+    libssl-dev \
     nodejs \
     pkg-config \
     sqlite3 \
